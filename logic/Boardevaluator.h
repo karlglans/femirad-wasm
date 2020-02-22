@@ -7,7 +7,7 @@ class Boardevaluator
   static const int oppo_cell = 2;
   static const int inaccessible = 3;
 public:
-  int calcCellLineValue(int* line);
+  int calcCellLineSignificance(int* line);
   //int calcCellValue(int stepsDirPosi, int stepsDirNeg, int openPos, int openNeg);
   int evaluateBoard(const char* board, int* cellValues, int row, char team);
   int evaluateCell(short pos, const char* board, int row, char team);

@@ -1,6 +1,9 @@
 #include "Board.h"
 #include "ranking.h"
 
+#include <iostream>
+using namespace std;
+
 int Board::row = 16;
 
 Board::Board()
@@ -77,6 +80,23 @@ int Board::getSize()
 void Board::setCell(int cellIdx, int player)
 {
   _board[cellIdx] = player;
+}
+
+void Board::print() {
+  int i, j, cIdx = 0, lineIdx;
+  char line[32 + 2];
+  line[32] = '\n';
+  line[33] = '\0';
+  for (j = 0; j < row; j++) {
+    lineIdx = 0;
+    for (i = 0; i < row; i++, cIdx++) {
+      line[lineIdx] = 48 + _board[cIdx];
+      line[lineIdx + 1] = ' ';
+      lineIdx += 2;
+    }
+    lineIdx = 0;
+    cout << line;
+  }
 }
 
 bool Board::isValidMove(const int move) {

@@ -24,6 +24,7 @@ public:
   int evaluateWin(int team);
   int getCellPly0();
   bool isValidMove(int move);
+  void print();
   
 	Board();
   Board(int row);

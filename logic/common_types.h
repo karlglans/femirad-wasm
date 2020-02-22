@@ -1,6 +1,6 @@
 #ifndef COMMON_TYPEDEFS
 #define COMMON_TYPEDEFS
 
-typedef short move;
+typedef short Move;
 
 #endif

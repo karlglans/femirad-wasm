@@ -9,7 +9,9 @@ const int open2cells = 6;
 const int open3cells = 12;
 const int open4cells = 900; // win.
 const int open4row = 900; // win.
-const int fiveInRow = 100000;
+const int blockOpen4row = 700; // win.
+const int blockFiveInRow = 1000; // säker
+const int fiveInRow = 990000;
 
 const int max_value = 10000000; // fiveInRow * 100 
 

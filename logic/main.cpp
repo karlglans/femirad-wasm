@@ -1,7 +1,9 @@
 #include "config.h"
-#ifdef USE_EMSCRIPTEN
-#include <emscripten.h>
-#endif
+//#ifdef USE_EMSCRIPTEN
+//#include <emscripten.h>
+//#endif
+#include <iostream>
+using namespace std;
 
 #include "BoardRow.h"
 #include "Board.h"
@@ -54,45 +56,22 @@ int main() {
     game->setPly(5);
   }
 
-
-
-
-  //board->setCell(136, 1);
-  //board->setCell(135, 2);
-  //game->setPly(4);
-  #ifdef USE_EMSCRIPTEN
-	EM_ASM_({
-	    console.log("main() done v23 ev, row:", $0);
-	}, BOARD_ROW);
-#endif
+  cout << "main() done v40 ev, row: " << BOARD_ROW << std::endl;
 	return 0;
 }
 
 extern "C" void releaseApp() {
   delete game;
   delete board;
-#ifdef USE_EMSCRIPTEN
-  EM_ASM_({
-	    console.log("releaseApp() done");
-	});
-#endif
 }
 
 extern "C" int doNextMove(int depth, char* board_ptr) {
-#ifdef USE_EMSCRIPTEN
-  EM_ASM_({
-      console.log("doNextMove() start");
-    });
-#endif
+  cout << "doNextMove() start " << std::endl;
   if (game->isOver()) {
-#ifdef USE_EMSCRIPTEN
-    EM_ASM_({
-        console.log("doNextMove() gameover");
-      });
-#endif
+    cout << "doNextMove() gameover" << std::endl;
     return -1; // 1
   }
-
+  if (game->getPly() < 4) depth = 5;
   Search search(depth);
   SearchResult sr;
   const int actingPlayer = game->getActingTeam();
@@ -108,17 +87,13 @@ extern "C" int doNextMove(int depth, char* board_ptr) {
   //board_ptr[sr.move] = game->getActingTeam();
   board->copyBoard(board_ptr); // later on just use row above
   game->incPly();
-#ifdef USE_EMSCRIPTEN
-  EM_ASM_({
-      console.log("doNextMove() acting:", $0, "move:", $1, $2);
-    }, actingPlayer, sr.move, sr.value);
-#endif
+  cout << "doNextMove() acting: " << (int)actingPlayer << ", move: " << sr.move << ", value: " 
+     << sr.value << ", goalValue: " << sr.goalValue << ", depth: " << depth << std::endl;
   return game->checkForWin(board) ? -1 : sr.move;
 }
 
 extern "C" int startNewGame() {
 	game = new Game();
-  
 	return 0;
 }
 
