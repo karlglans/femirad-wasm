@@ -9,7 +9,6 @@ import makeBoardArr, {allocBoardBuffer, copyBoardBuffer, markEmptyCell, releaseW
 const row = 16;
 
 function App() {
-  // const [gameBoard, setGameBoard] = useState(game.getGameBoard());
   const [isAllowingNextStep, setIsAllowingNextStep] = useState(true);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [lastChangedCellIdx, setLastChangedCellIdx] = useState(-1);
@@ -64,11 +63,7 @@ function App() {
 
   function handleRestart() {
     if (isAllowingNextStep) {
-      // game.reset();
       setLastChangedCellIdx(-1);
-      // setGameOver(game.isGameOver());
-      // setCurrentPlayer(game.currentPlayer());
-      // setGameBoard(game.getGameBoard());
     }
   }
   
@@ -77,7 +72,6 @@ function App() {
       <div style={{ position: 'relative', height: 600, width: 600 }}>
         <Grid
           row = {row}
-          // gameBoard = {gameBoard}
           handleClickCell = {handleClickCell}
           lastChangedCellIdx = {lastChangedCellIdx}
           boardArr = {boardArr}
