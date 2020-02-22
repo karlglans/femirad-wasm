@@ -42,9 +42,6 @@
     <ClInclude Include="common_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GoodCellList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Boardevaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,9 +63,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Search.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GoodCellList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Boardevaluator.cpp">

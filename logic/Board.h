@@ -2,7 +2,6 @@
 #define BOARD
 
 #include "BoardRow.h"
-#include "GoodCellList.h"
 
 #define EMPTY_CELL 0
 
