@@ -122,7 +122,6 @@
     <ClInclude Include="common_types.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamestateNode.h" />
-    <ClInclude Include="GoodCellList.h" />
     <ClInclude Include="IndexGenerator.h" />
     <ClInclude Include="ranking.h" />
     <ClInclude Include="config.h" />
@@ -133,7 +132,6 @@
     <ClCompile Include="Boardevaluator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamestateNode.cpp" />
-    <ClCompile Include="GoodCellList.cpp" />
     <ClCompile Include="IndexGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Search.cpp" />

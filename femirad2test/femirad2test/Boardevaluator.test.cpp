@@ -5,8 +5,8 @@
 
 const int valueOfEmpyCell = 1;
 const int valueOfEmpyOwnCell = 3 * 3;
-const int valueOfEmpyOppCell = 4 * 4;
-const int calueOfEmptyLine = 5 * valueOfEmpyCell;
+const int valueOfEmpyOppCell = valueOfEmpyOwnCell + 1;
+const int valueOfEmptyLine = 5 * valueOfEmpyCell;
 
 TEST(Boardevaluator_evaluate, corners_should_have_same_value) {
   const int row = 8;
@@ -77,8 +77,8 @@ TEST(Boardevaluator_calcCellLineSignificance, sss) {
   Boardevaluator boardEval;
   int line1[] = { 1, 1, 1, 2, 0, 0, 0, 0, 0, };
   int valueOfLastSubLine4 = valueOfEmpyOppCell + 4 * valueOfEmpyCell;
-  int valueOfLastSubLine5 = calueOfEmptyLine;
-  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), valueOfLastSubLine4 + valueOfLastSubLine5); // 25
+  int valueOfLastSubLine5 = valueOfEmptyLine;
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), valueOfLastSubLine4 + valueOfLastSubLine5); // 19
   //int line2[] = { 0, 0, 0, 0, 0, 0, 3, 3, 3, };
   //EXPECT_EQ(boardEval.calcCellLineSignificance(line2), 2 * 5);
 }
