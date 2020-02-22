@@ -3,6 +3,11 @@
 #include "../../logic/ranking.h"
 #include "../../logic/Boardevaluator.h"
 
+const int valueOfEmpyCell = 1;
+const int valueOfEmpyOwnCell = 3 * 3;
+const int valueOfEmpyOppCell = 4 * 4;
+const int calueOfEmptyLine = 5 * valueOfEmpyCell;
+
 TEST(Boardevaluator_evaluate, corners_should_have_same_value) {
   const int row = 8;
   Board board(row);
@@ -53,45 +58,94 @@ TEST(Boardevaluator_evaluate, symmetry_next_to_corners) {
   delete[] boardValues;
 }
 
-TEST(Boardevaluator, calcCellLineValue_emptySpaceLine) {
+TEST(Boardevaluator_calcCellLineSignificance, emptySpaceLine) {
   Boardevaluator boardEval;
   int line[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, };
-  int value = boardEval.calcCellLineValue(line);
-  EXPECT_EQ(value, 5*5*2);
+  int value = boardEval.calcCellLineSignificance(line);
+  EXPECT_EQ(value, 5*5);
 }
 
-TEST(Boardevaluator, calcCellLineValue_5_empty_last_spots) {
+TEST(Boardevaluator_calcCellLineSignificance, 2_empyt_lines_possible) {
+  Boardevaluator boardEval;
+  int line1[] = { 3, 3, 3, 0, 0, 0, 0, 0, 0, };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), 2 * 5);
+  int line2[] = { 0, 0, 0, 0, 0, 0, 3, 3, 3, };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line2), 2 * 5);
+}
+
+TEST(Boardevaluator_calcCellLineSignificance, sss) {
+  Boardevaluator boardEval;
+  int line1[] = { 1, 1, 1, 2, 0, 0, 0, 0, 0, };
+  int valueOfLastSubLine4 = valueOfEmpyOppCell + 4 * valueOfEmpyCell;
+  int valueOfLastSubLine5 = calueOfEmptyLine;
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), valueOfLastSubLine4 + valueOfLastSubLine5); // 25
+  //int line2[] = { 0, 0, 0, 0, 0, 0, 3, 3, 3, };
+  //EXPECT_EQ(boardEval.calcCellLineSignificance(line2), 2 * 5);
+}
+
+TEST(Boardevaluator_calcCellLineSignificance, _5_empty_last_spots) {
   Boardevaluator boardEval;
   int line[] = { 3, 3, 3, 3, 0, 0, 0, 0, 0 };
-  int value = boardEval.calcCellLineValue(line);
-  EXPECT_EQ(value, 5*2);
+  int value = boardEval.calcCellLineSignificance(line);
+  EXPECT_EQ(value, 5);
 }
 
-TEST(Boardevaluator, calcCellLineValue_5_empty__first_spots) {
+TEST(Boardevaluator_calcCellLineSignificance, _5_empty__first_spots) {
   Boardevaluator boardEval;
   int line[] = { 0, 0, 0, 0, 0, 3, 3, 3, 3 };
-  int value = boardEval.calcCellLineValue(line);
-  EXPECT_EQ(value, 5 * 2);
+  int value = boardEval.calcCellLineSignificance(line);
+  EXPECT_EQ(value, 5);
 }
 
-TEST(Boardevaluator, calcCellLineValue_can_find_win) {
+TEST(Boardevaluator_calcCellLineSignificance, own_4open) {
   Boardevaluator boardEval;
-  int line[] = { 1, 1, 1, 1, 0, 2, 0, 0, 0 };
-  int value = boardEval.calcCellLineValue(line);
-  EXPECT_GE(value, fiveInRow); // fiveInRow
+  int line1[] = { 0, 1, 1, 1, 0, 0, 2, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), open4row);
+  int line2[] = { 0, 0, 1, 1, 0, 1, 0, 2, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line2), open4row);
+  int line3[] = { 2, 0, 0, 1, 0, 1, 1, 0, 2 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line3), open4row);
+  int line4[] = { 2, 2, 2, 0, 0, 1, 1, 1, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line3), open4row);
 }
 
-//TEST(Boardevaluator, calcCellLineValue_10000) {
+TEST(Boardevaluator_calcCellLineSignificance, opponent_4open) {
+  Boardevaluator boardEval;
+  int line1[] = { 0, 2, 2, 2, 0, 0, 0, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), blockOpen4row);
+  int line2[] = { 0, 0, 2, 2, 0, 2, 0, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line2), blockOpen4row);
+  int line3[] = { 0, 0, 0, 2, 0, 2, 2, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line3), blockOpen4row);
+  int line4[] = { 0, 0, 0, 0, 0, 2, 2, 2, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line3), blockOpen4row);
+}
+
+TEST(Boardevaluator_calcCellLineSignificance, can_find_win) {
+  Boardevaluator boardEval;
+  int line1[] = { 1, 1, 1, 1, 0, 0, 0, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line1), fiveInRow);
+  int line2[] = { 0, 1, 1, 1, 0, 1, 0, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line2), fiveInRow);
+  int line3[] = { 0, 0, 1, 1, 0, 1, 1, 0, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line3), fiveInRow);
+  int line4[] = { 0, 0, 0, 1, 0, 1, 1, 1, 0 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line4), fiveInRow);
+  int line5[] = { 0, 0, 0, 0, 0, 1, 1, 1, 1 };
+  EXPECT_EQ(boardEval.calcCellLineSignificance(line5), fiveInRow);
+}
+
+//TEST(Boardevaluator, calcCellLineSignificance_10000) {
 //  Boardevaluator boardEval;
-//  int line[] = { 1, 0, 0, 0, 0, 2, 2, 2, 2 };
-//  int value = boardEval.calcCellLineValue(line);
+//  int line[] = { 0, 1, 2, 2, 1, 2, 2, 0, 0 };
+//  int value = boardEval.calcCellLineSignificance(line);
 //  EXPECT_EQ(value, 6);
 //}
 
-//TEST(Boardevaluator, calcCellLineValue_10000_00000) {
+//TEST(Boardevaluator, calcCellLineSignificance_10000_00000) {
 //  Boardevaluator boardEval;
 //  int line[] = { 1, 0, 0, 0, 0, 0, 2, 2, 2 };
-//  int value = boardEval.calcCellLineValue(line);
+//  int value = boardEval.calcCellLineSignificance(line);
 //  EXPECT_EQ(value, 6 + 5);
 //}
 

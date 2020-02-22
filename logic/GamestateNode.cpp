@@ -3,7 +3,7 @@
 #include "Boardevaluator.h"
 
 //short* GamestateNode::premadeIndecis = 0; // maybe guard better
-Boardevaluator boordeval;
+Boardevaluator boardeval;
 const int highValue = fiveInRow * 100;
 
 Board * GamestateNode::getBoard()
@@ -11,7 +11,7 @@ Board * GamestateNode::getBoard()
   return &board;
 }
 
-void GamestateNode::setMove(move move)
+void GamestateNode::setMove(Move move)
 {
   _move = move;
 }
@@ -35,7 +35,7 @@ bool  GamestateNode::checkWin(int team) {
 int GamestateNode::getValueFromBestChild(GamestateNode* nodes, int nNodes, bool isMaximizing)
 {
   // NOTE: maybe return ptr to node instead of just best value
-  int bestVal = isMaximizing ? -10000 : 10000;
+  int bestVal = isMaximizing ? -highValue : highValue;
   if (nNodes == 0) {
     return -2;
   }
@@ -80,27 +80,32 @@ GamestateNode * GamestateNode::getBestChild(GamestateNode * nodes, int nNodes, b
 }
 
 short indexBuffer[BOARD_ROW * BOARD_ROW]; // internal buffer 
-int cellValueBuffer[BOARD_ROW * BOARD_ROW];
+int cellSignificanceBuffer[BOARD_ROW * BOARD_ROW];
 
-int GamestateNode::generateChildMoves(int depth, int team) {
+int GamestateNode::generateChildMoves(int maxNbChildren, int team) {
   const char* boardCells = board.getBoard();
   const int max_board_cells = board.getSize();
   int nChildren = 0;
   //bool isTopLayer = _move == -1;
 
-  boordeval.evaluateBoard(boardCells, cellValueBuffer, board.getRow(), team);
-  nChildren = boordeval.sortCellValues(cellValueBuffer, indexBuffer, max_board_cells, 5);
+  boardeval.evaluateBoard(boardCells, cellSignificanceBuffer, board.getRow(), team);
+  nChildren = boardeval.sortCellValues(cellSignificanceBuffer, indexBuffer, max_board_cells, maxNbChildren); // 3
 
   return nChildren;
 }
 
-GamestateNode* GamestateNode::generateChildren(int depth, int team)
+GamestateNode* GamestateNode::generateChildren(int depth, int maxNbChildren, int team)
 {
   int nChildren = generateChildMoves(depth, team);
+  int nodeSigniValue = -1;
   GamestateNode* children = new GamestateNode[nChildren];
   for (int c = 0; c < nChildren; c++) {
     children[c].copyBoard(&board);
     children[c].setMove(indexBuffer[c]);
+    nodeSigniValue = cellSignificanceBuffer[indexBuffer[c]];
+    children[c].isWin = nodeSigniValue >= fiveInRow;
+    // kan value också sättas här? 
+    children[c].value = depth == 1? nodeSigniValue: depth%2 == 0 ? max_value: -max_value;
   }
   _nChildren = nChildren;
   return children;
@@ -109,6 +114,8 @@ GamestateNode* GamestateNode::generateChildren(int depth, int team)
 GamestateNode::GamestateNode()
 {
   _nChildren = -1;
+  value = -max_value; // check: sinse node 0 is maximizing
+  isWin = false;
 }
 
 
