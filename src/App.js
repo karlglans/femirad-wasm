@@ -4,14 +4,12 @@ import './App.css';
 import Grid from './components/Grid';
 import ControlPanel from './components/ControlPanel';
 
-import FiveInRow from './logic/FiveInRowGame';
 import makeBoardArr, {allocBoardBuffer, copyBoardBuffer, markEmptyCell, releaseWasm, doNextMove} from './wasmdom/makeBoardArr';
 
 const row = 16;
-const game = new FiveInRow(row);
 
 function App() {
-  const [gameBoard, setGameBoard] = useState(game.getGameBoard());
+  // const [gameBoard, setGameBoard] = useState(game.getGameBoard());
   const [isAllowingNextStep, setIsAllowingNextStep] = useState(true);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [lastChangedCellIdx, setLastChangedCellIdx] = useState(-1);
@@ -66,11 +64,11 @@ function App() {
 
   function handleRestart() {
     if (isAllowingNextStep) {
-      game.reset();
+      // game.reset();
       setLastChangedCellIdx(-1);
-      setGameOver(game.isGameOver());
-      setCurrentPlayer(game.currentPlayer());
-      setGameBoard(game.getGameBoard());
+      // setGameOver(game.isGameOver());
+      // setCurrentPlayer(game.currentPlayer());
+      // setGameBoard(game.getGameBoard());
     }
   }
   
@@ -79,7 +77,7 @@ function App() {
       <div style={{ position: 'relative', height: 600, width: 600 }}>
         <Grid
           row = {row}
-          gameBoard = {gameBoard}
+          // gameBoard = {gameBoard}
           handleClickCell = {handleClickCell}
           lastChangedCellIdx = {lastChangedCellIdx}
           boardArr = {boardArr}
