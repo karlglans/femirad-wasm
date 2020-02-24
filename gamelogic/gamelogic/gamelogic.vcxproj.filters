@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="logic\Board.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\Boardevaluator.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\Game.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\GamestateNode.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\IndexGenerator.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\Search.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\Board.test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\Boardevaluator.test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\IndexGenerator.test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\Search.test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="logic\main.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="logic\Board.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\Boardevaluator.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\BoardRow.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\common_types.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\config.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\Game.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\GamestateNode.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\IndexGenerator.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\ranking.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="logic\Search.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="logic">
+      <UniqueIdentifier>{eb20b37f-ebba-4b17-93fc-b0fcf756068f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{4a26f8a1-15e5-48d3-ba1a-1d8ef99040d5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
