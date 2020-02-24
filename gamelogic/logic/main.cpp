@@ -56,7 +56,7 @@ int main() {
     game->setPly(5);
   }
 
-  cout << "main() done v40 ev, row: " << BOARD_ROW << std::endl;
+  cout << "main() done v40 ev, row: " << BOARD_ROW << endl;
 	return 0;
 }
 
@@ -66,9 +66,9 @@ extern "C" void releaseApp() {
 }
 
 extern "C" int doNextMove(int depth, char* board_ptr) {
-  cout << "doNextMove() start " << std::endl;
+  cout << "doNextMove() start " << endl;
   if (game->isOver()) {
-    cout << "doNextMove() gameover" << std::endl;
+    cout << "doNextMove() gameover" << endl;
     return -1; // 1
   }
   if (game->getPly() < 4) depth = 5;
@@ -88,7 +88,7 @@ extern "C" int doNextMove(int depth, char* board_ptr) {
   board->copyBoard(board_ptr); // later on just use row above
   game->incPly();
   cout << "doNextMove() acting: " << (int)actingPlayer << ", move: " << sr.move << ", value: " 
-     << sr.value << ", goalValue: " << sr.goalValue << ", depth: " << depth << std::endl;
+     << sr.value << ", depth: " << depth << endl;
   return game->checkForWin(board) ? -1 : sr.move;
 }
 

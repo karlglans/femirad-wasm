@@ -4,11 +4,12 @@
 #include "Board.h"
 #include "GamestateNode.h"
 #include "Boardevaluator.h"
+#include "common_types.h"
 
 struct SearchResult{
   short move;
   int value; // maybe should be called significance
-  int goalValue;
+  std::list<SelectTrace> selectTrace;
 };
 
 class Search

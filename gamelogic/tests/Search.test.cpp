@@ -6,7 +6,7 @@ bool skipAll = true;
 
 TEST(Searching_slowTest, slowTest_should_stop_3_line) {
   // there is an obvious best move
-  if (skipAll) { ASSERT_TRUE(true); return; }
+  //if (skipAll) { ASSERT_TRUE(true); return; }
   Board board(16);
   char brd[] = {
     0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
@@ -61,7 +61,7 @@ TEST(Searching_slowTest, handle_bad_possition) {
 }
 
 TEST(Searching_slowTest, finish_instead_of_stopping_opponent) {
-  //if (skipAll) { ASSERT_TRUE(true); return; }
+  if (skipAll) { ASSERT_TRUE(true); return; }
   Board board(16);
   char brd[] = {
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
