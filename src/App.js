@@ -20,8 +20,10 @@ function App() {
   function handleStep() {
     if (startedStep === finishedStep && isAllowingNextStep) {
       setIsAllowingNextStep(false);
-      setStartedStep(startedStep + 1);
     }
+    setTimeout(() => {
+      setStartedStep(startedStep + 1);
+    }, 10);
   }
 
   useEffect( () => {
