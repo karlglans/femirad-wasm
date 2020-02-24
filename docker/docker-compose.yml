@@ -9,5 +9,5 @@ services:
       context: .
       dockerfile: emscript.Dockerfile
     volumes:
-      - ../logic:/usr/src/app
+      - ../gamelogic/logic:/usr/src/app
       - ../public/wasm:/usr/src/target
