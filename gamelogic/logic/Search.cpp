@@ -7,12 +7,11 @@
 using namespace std;
 
 
-
-
-
 Search::Search(int depth)
   :_depth(depth)
 {
+  actingPlayer = -1;
+  oppPlayer = -1;
 }
 
 Search::~Search()
@@ -30,7 +29,7 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   }
 
   if (depth == 0) {
-    // should we evaluate the whole table?
+    // should we evaluate the whole board?
  #ifdef DEBUG_SEARCH
     cout << "depth: " << depth << ", cmove: " << node->_move << ", value: " << node->value << "     " << std::endl;
  #endif
@@ -54,15 +53,19 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   if (node->_move == -1) {
     GamestateNode* selection = GamestateNode::getBestChild(children, node->_nChildren, shouldMax);
     if (selection != 0) {
+      selection->addToSelectionHistory(depth);
       searchResult.move = selection->_move;
       searchResult.value = selection->value;
-      searchResult.goalValue = value;
+      searchResult.selectTrace = selection->selectTrace;
+      delete[] children;
     }
-    //delete[] children;
     return searchResult.value;
   }
-
-  const int bestValue = GamestateNode::getValueFromBestChild(children, node->_nChildren, shouldMax);
+  GamestateNode* selection = GamestateNode::getBestChild(children, node->_nChildren, shouldMax);
+  const int bestValue = selection->value;
+  selection->addToSelectionHistory(depth);
+  node->addToSelectionHistory(selection);
+  
   delete[] children;
   node->value = bestValue;
   return bestValue;
@@ -84,11 +87,13 @@ void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board)
   minmax(node0, _depth, true, oppPlayer, -max_value, max_value);
   sr.move = searchResult.move;
   sr.value = searchResult.value;
+  sr.selectTrace = searchResult.selectTrace;
 
   delete node0;
 }
 
 int Search::decideNbOfChildren(int curDepth) {
   //if (curDepth == _depth) return curDepth; // top level
+  //return 2;
   return curDepth + 1;
 }

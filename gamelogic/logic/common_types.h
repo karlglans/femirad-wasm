@@ -3,4 +3,11 @@
 
 typedef short Move;
 
+// mainly for debugging
+struct SelectTrace {
+  Move move;
+  int value;
+  int depth;
+};
+
 #endif
