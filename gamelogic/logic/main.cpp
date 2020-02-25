@@ -56,7 +56,7 @@ int main() {
     game->setPly(5);
   }
 
-  cout << "main() done v40 ev, row: " << BOARD_ROW << endl;
+  cout << "main() done v41 ev, row: " << BOARD_ROW << endl;
 	return 0;
 }
 
@@ -88,7 +88,7 @@ extern "C" int doNextMove(int depth, char* board_ptr) {
   board->copyBoard(board_ptr); // later on just use row above
   game->incPly();
   cout << "doNextMove() acting: " << (int)actingPlayer << ", move: " << sr.move << ", value: " 
-     << sr.value << ", depth: " << depth << endl;
+     << sr.value << ", depth: " << depth << ", nNodes: " << sr.nNodes << endl;
   return game->checkForWin(board) ? -1 : sr.move;
 }
 

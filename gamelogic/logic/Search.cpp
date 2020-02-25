@@ -12,6 +12,7 @@ Search::Search(int depth)
 {
   actingPlayer = -1;
   oppPlayer = -1;
+  nNodesSearched = 0;
 }
 
 Search::~Search()
@@ -21,6 +22,7 @@ Search::~Search()
 
 int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char plyPlayer, int alpha, int beta) {
   node->applyMoveToBoard(plyPlayer);
+  nNodesSearched += 1;
   
   if (node->isWin) {
     // will reward shortest path to win by adding depth
@@ -40,13 +42,19 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   GamestateNode* children = node->generateChildren(depth, decideNbOfChildren(depth), nextPlyPlayer);
   int value = -5; // -5 just indicating error
   for (int i = 0; i < node->_nChildren; i++) {
+    GamestateNode* child = &children[i];
 #ifdef DEBUG_SEARCH
     cout << "depth: " << depth << ", cmove: " << children->_move << ", value: " << node->value << ", parent: " << node->_move << "     " << std::endl;
 #endif
-    value = minmax(&children[i], depth - 1, !shouldMax, nextPlyPlayer, alpha, beta);
+    value = minmax(child, depth - 1, !shouldMax, nextPlyPlayer, alpha, beta);
+    
     if (shouldMax) alpha = (value > alpha) ? value : alpha; // max(value, alpha)
     else beta = (value < beta) ? value : beta; // min(value, beta)
     if (beta <= alpha) break;
+    if (child->isWin) {
+      node->_nChildren = i + 1;
+      break;
+    }
   }
 
   // reached top node
@@ -88,7 +96,7 @@ void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board)
   sr.move = searchResult.move;
   sr.value = searchResult.value;
   sr.selectTrace = searchResult.selectTrace;
-
+  sr.nNodes = nNodesSearched;
   delete node0;
 }
 

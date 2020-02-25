@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const style = { 
   flex: -1,
@@ -15,12 +15,15 @@ const style = {
 };
 
 function GridCell (props) {
+  const [cellValue, setCellValue] = useState(props.cellState); 
   return (
     <div
-      style={{ ...style, 
-        backgroundColor: props.cellState === 1 ? 'red' : props.cellState === 2 ? 'blue':'#aaa' }}
-      onClick={() => props.clickhandler(props.cellIdx)} >
-      {props.flicker? null : props.cellState}
+      style={{ ...style, backgroundColor: props.cellState === 1 ? 'red' : props.cellState === 2 ? 'blue':'#aaa' }}
+      onClick={() => props.clickhandler(props.cellIdx)}
+      onMouseEnter={() => setCellValue(props.cellIdx)}
+      onMouseLeave={() => setCellValue(props.cellState)} 
+    >
+      {props.flicker? null : cellValue}
     </div>
   );
 }

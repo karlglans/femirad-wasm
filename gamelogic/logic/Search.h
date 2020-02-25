@@ -9,6 +9,7 @@
 struct SearchResult{
   short move;
   int value; // maybe should be called significance
+  int nNodes;
   std::list<SelectTrace> selectTrace;
 };
 
@@ -23,6 +24,7 @@ private:
   int minmax(GamestateNode* const node, int depth, bool shouldMax, char plyPlayer, int alpha, int beta);
   int decideNbOfChildren(int curDepth);
 public:
+  int nNodesSearched; // mainly for debugging
   Search(int depth);
   void doSearch(SearchResult& sr, char actingPlayer, Board* board);
   ~Search();

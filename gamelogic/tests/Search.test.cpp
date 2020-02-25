@@ -6,7 +6,7 @@ bool skipAll = true;
 
 TEST(Searching_slowTest, slowTest_should_stop_3_line) {
   // there is an obvious best move
-  //if (skipAll) { ASSERT_TRUE(true); return; }
+  if (skipAll) { ASSERT_TRUE(true); return; }
   Board board(16);
   char brd[] = {
     0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
@@ -29,11 +29,11 @@ TEST(Searching_slowTest, slowTest_should_stop_3_line) {
   SearchResult sr;
   Search search(9);
   search.doSearch(sr, 1, &board);
-  EXPECT_EQ(sr.move, 136); // depth 5 => 135
+  EXPECT_EQ(sr.move, 136); // depth 5 => 135  nNodesSearched = 7634 6063
 }
 
 TEST(Searching_slowTest, handle_bad_possition) {
-  if (skipAll) { ASSERT_TRUE(true); return; }
+  //if (skipAll) { ASSERT_TRUE(true); return; }
   // should not just give up
   Board board(16);
   char brd[] = {
@@ -56,7 +56,7 @@ TEST(Searching_slowTest, handle_bad_possition) {
   board.setBoard(brd);
   SearchResult sr;
   Search search(11);
-  search.doSearch(sr, 2, &board);
+  search.doSearch(sr, 2, &board); // searchedNodes 8085, 25
   EXPECT_EQ(sr.move, 153); // depth 5 => 135
 }
 
@@ -84,7 +84,7 @@ TEST(Searching_slowTest, finish_instead_of_stopping_opponent) {
   Search search(7);
   search.doSearch(sr, 1, &board);
   EXPECT_EQ(sr.move, 150);
-  EXPECT_GE(sr.value, fiveInRow);
+  EXPECT_GE(sr.value, fiveInRow); // nNodesSearched: 124, 2
 }
 
 TEST(Searching_slowTest, search_result_should_inidcate_win) {
