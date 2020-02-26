@@ -8,6 +8,7 @@
 
 class GamestateNode
 {
+  int calcValueOfWin(int depth, bool actingPlayerWon);
 public:
   Move _move;
   Board board;
@@ -22,7 +23,7 @@ public:
   void applyMoveToBoard(char actingPlayer);
   static GamestateNode* getBestChild(GamestateNode* nodes, int nNodes, bool max);
   static short* premadeIndecis;
-  GamestateNode* generateChildren(int depth, int maxNbChildren, int team);
+  GamestateNode* generateChildren(int depth, int maxNbChildren, int team, int actingPlayer);
   bool checkWin(int team);
   int generateChildMoves(int depth, int team);
   void addToSelectionHistory(int depth);

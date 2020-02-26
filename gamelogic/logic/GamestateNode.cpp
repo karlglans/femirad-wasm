@@ -72,9 +72,13 @@ int GamestateNode::generateChildMoves(int maxNbChildren, int team) {
   return nChildren;
 }
 
-GamestateNode* GamestateNode::generateChildren(int depth, int maxNbChildren, int team)
+inline int GamestateNode::calcValueOfWin(int depth, bool actingPlayerWon) {
+  return actingPlayerWon ? fiveInRow + depth : -fiveInRow;
+}
+
+GamestateNode* GamestateNode::generateChildren(int depth, int maxNbChildren, int plyPlayer, int actingPlayer)
 {
-  int nChildren = generateChildMoves(maxNbChildren, team);
+  int nChildren = generateChildMoves(maxNbChildren, plyPlayer);
   GamestateNode* children = new GamestateNode[nChildren];
   for (int c = 0; c < nChildren; c++) {
     GamestateNode* child = &children[c];
@@ -83,7 +87,9 @@ GamestateNode* GamestateNode::generateChildren(int depth, int maxNbChildren, int
     int nodeSigniValue = cellSignificanceBuffer[indexBuffer[c]];
     child->preliminaryValue = nodeSigniValue;
     child->isWin = nodeSigniValue >= fiveInRow;
-    child->value = depth == 1? nodeSigniValue: depth%2 == 0 ? max_value: -max_value;
+    // will reward shortest path to win by adding depth
+    if (child->isWin) child->value = calcValueOfWin(depth, plyPlayer == actingPlayer);
+    else child->value = depth == 1? nodeSigniValue: depth%2 == 0 ? max_value: -max_value;
   }
   _nChildren = nChildren;
   return children;
