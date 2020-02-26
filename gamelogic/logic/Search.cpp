@@ -18,27 +18,19 @@ void SearchResult::print(int ply, int searchDepth) {
 }
 
 Search::Search(int depth)
-  :_depth(depth)
-{
+  :_depth(depth) {
   actingPlayer = -1;
   oppPlayer = -1;
   nNodesSearched = 0;
 }
 
-Search::~Search()
-{
-}
-
+Search::~Search() {}
 
 int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char plyPlayer, int alpha, int beta) {
   node->applyMoveToBoard(plyPlayer);
   nNodesSearched += 1;
   
-  if (node->isWin) {
-    // will reward shortest path to win by adding depth
-    node->value = plyPlayer == actingPlayer ? fiveInRow + depth : -fiveInRow;
-    return node->value;
-  }
+  if (node->isWin) return node->value;
 
   if (depth == 0) {
     // should we evaluate the whole board?
@@ -49,7 +41,7 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   }
 
   char nextPlyPlayer = plyPlayer == 1 ? 2 : 1;
-  GamestateNode* children = node->generateChildren(depth, decideNbOfChildren(depth), nextPlyPlayer);
+  GamestateNode* children = node->generateChildren(depth, decideNbOfChildren(depth), nextPlyPlayer, actingPlayer);
   int value = -5; // -5 just indicating error
   for (int i = 0; i < node->_nChildren; i++) {
     GamestateNode* child = &children[i];
@@ -60,7 +52,9 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
     
     if (shouldMax) alpha = (value > alpha) ? value : alpha; // max(value, alpha)
     else beta = (value < beta) ? value : beta; // min(value, beta)
-    if (beta <= alpha) break;
+    if (beta <= alpha) {
+      break;
+    }
     if (child->isWin) {
       node->_nChildren = i + 1;
       break;
@@ -89,8 +83,7 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   return bestValue;
 }
 
-void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board)
-{
+void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board) {
   // maybe move since it can be reused
   const int row = board->getRow();
 
@@ -111,7 +104,6 @@ void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board)
 }
 
 int Search::decideNbOfChildren(int curDepth) {
-  //if (curDepth == _depth) return curDepth; // top level
   //return 2;
   return curDepth + 1;
 }

@@ -2,7 +2,7 @@
 #include "../logic/Search.h"
 #include "../logic/ranking.h"
 
-bool skipAll = true;
+bool skipAll = false;
 
 TEST(Searching_slowTest, slowTest_should_stop_3_line) {
   // there is an obvious best move
@@ -33,7 +33,7 @@ TEST(Searching_slowTest, slowTest_should_stop_3_line) {
 }
 
 TEST(Searching_slowTest, handle_bad_possition) {
-  //if (skipAll) { ASSERT_TRUE(true); return; }
+  if (skipAll) { ASSERT_TRUE(true); return; }
   // should not just give up
   Board board(16);
   char brd[] = {
@@ -113,8 +113,8 @@ TEST(Searching_slowTest, search_result_should_inidcate_win) {
   EXPECT_GE(sr.value, fiveInRow);
 }
 
-TEST(Searching_slowTest, testets) {
-  if (skipAll) { ASSERT_TRUE(true); return; }
+TEST(Searching_slowTest, should_see_a_future_win) {
+  //if (skipAll) { ASSERT_TRUE(true); return; }
   Board board(16);
   char brd[] = {
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -123,22 +123,21 @@ TEST(Searching_slowTest, testets) {
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
-
-    0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,1,2,1,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,1,1,9,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
-  ASSERT_TRUE(brd[119] == 1);
   board.setBoard(brd);
   SearchResult sr;
-  Search search(3);
-  search.doSearch(sr, 2, &board);
-  EXPECT_EQ(sr.move, 136);
+  Search search(11);
+  search.doSearch(sr, 1, &board);
+  EXPECT_EQ(sr.move, 153);
+  EXPECT_GE(sr.value, fiveInRow);
 }
 
 //TEST(Searching_slowTest, case1) {
