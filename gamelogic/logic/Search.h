@@ -6,11 +6,13 @@
 #include "Boardevaluator.h"
 #include "common_types.h"
 
-struct SearchResult{
+struct SearchResult {
   short move;
-  int value; // maybe should be called significance
+  int value;
   int nNodes;
   std::list<SelectTrace> selectTrace;
+  void print(int ply, int searchDepth);
+  SearchResult();
 };
 
 class Search

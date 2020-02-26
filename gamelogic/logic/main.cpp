@@ -66,7 +66,7 @@ extern "C" void releaseApp() {
 }
 
 extern "C" int doNextMove(int depth, char* board_ptr) {
-  cout << "doNextMove() start " << endl;
+  cout << "doNextMove() ply: " << game->getPly() << endl;
   if (game->isOver()) {
     cout << "doNextMove() gameover" << endl;
     return -1; // 1
@@ -89,6 +89,7 @@ extern "C" int doNextMove(int depth, char* board_ptr) {
   game->incPly();
   cout << "doNextMove() acting: " << (int)actingPlayer << ", move: " << sr.move << ", value: " 
      << sr.value << ", depth: " << depth << ", nNodes: " << sr.nNodes << endl;
+  sr.print(game->getPly(), depth);
   return game->checkForWin(board) ? -1 : sr.move;
 }
 

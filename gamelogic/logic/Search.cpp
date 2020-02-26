@@ -6,6 +6,16 @@
 #include <iostream>
 using namespace std;
 
+SearchResult::SearchResult() {
+  move = -22;
+  value = -2;
+  nNodes = 0;
+}
+void SearchResult::print(int ply, int searchDepth) {
+  for (std::list<SelectTrace>::iterator it = selectTrace.begin(); it != selectTrace.end(); ++it) {
+    cout << "ply: " << ply + (searchDepth - it->depth - 1)  << " dp: " << it->depth << " mv: " << it->move << " val: " << it->value << endl;
+  }
+}
 
 Search::Search(int depth)
   :_depth(depth)
@@ -61,7 +71,7 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   if (node->_move == -1) {
     GamestateNode* selection = GamestateNode::getBestChild(children, node->_nChildren, shouldMax);
     if (selection != 0) {
-      selection->addToSelectionHistory(depth);
+      selection->addToSelectionHistory(depth - 1);
       searchResult.move = selection->_move;
       searchResult.value = selection->value;
       searchResult.selectTrace = selection->selectTrace;
@@ -71,7 +81,7 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
   }
   GamestateNode* selection = GamestateNode::getBestChild(children, node->_nChildren, shouldMax);
   const int bestValue = selection->value;
-  selection->addToSelectionHistory(depth);
+  selection->addToSelectionHistory(depth - 1);
   node->addToSelectionHistory(selection);
   
   delete[] children;
