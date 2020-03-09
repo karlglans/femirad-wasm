@@ -22,6 +22,7 @@ Search::Search(int depth)
   actingPlayer = -1;
   oppPlayer = -1;
   nNodesSearched = 0;
+  nPrune = 0; // stats
 }
 
 Search::~Search() {}
@@ -53,9 +54,13 @@ int Search::minmax(GamestateNode* const node, int depth, bool shouldMax, char pl
     if (shouldMax) alpha = (value > alpha) ? value : alpha; // max(value, alpha)
     else beta = (value < beta) ? value : beta; // min(value, beta)
     if (beta <= alpha) {
-      break;
+      // Todo: investigate the benefits of this:
+      nPrune += 1;
+      delete[] children;
+      return value;
     }
     if (child->isWin) {
+      // Todo: investigate the benefits of this:
       node->_nChildren = i + 1;
       break;
     }
@@ -101,9 +106,9 @@ void Search::doSearch(SearchResult & sr, char actingPlayerStart, Board * board) 
   sr.selectTrace = searchResult.selectTrace;
   sr.nNodes = nNodesSearched;
   delete node0;
+  //cout << "nPrune: " << (float)nPrune/(float)nNodesSearched << endl;
 }
 
 int Search::decideNbOfChildren(int curDepth) {
-  //return 2;
   return curDepth + 1;
 }

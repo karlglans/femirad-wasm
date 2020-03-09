@@ -33,7 +33,8 @@ bool  GamestateNode::checkWin(int team) {
 
 GamestateNode * GamestateNode::getBestChild(GamestateNode* nodes, int nNodes, bool isMaximizing) {
   // NOTE: maybe return ptr to node instead of just best value
-  int bestVal = isMaximizing ? -max_value : max_value;
+  const int under_max_value = max_value + 1;
+  int bestVal = isMaximizing ? -under_max_value : under_max_value;
   int childIdx = -1;
   if (nNodes == 0) {
     return 0;
