@@ -19,6 +19,7 @@ class Search
 {
 private:
   const int _depth;
+  int nPrune;
   SearchResult searchResult;
   char actingPlayer;
   char oppPlayer;

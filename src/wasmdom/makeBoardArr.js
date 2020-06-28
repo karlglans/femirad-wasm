@@ -45,7 +45,7 @@ export function markEmptyCell(cellIdx) {
  * @return {bool} gameIsOver
  */
 export function doNextMove() {
-  const searchDepth = 11; // odd numbers [3, 5, 7, 9]
+  const searchDepth = 9; // odd numbers [3, 5, 7, 9]
   const t1 = performance.now();
   const result = window.Module.ccall('doNextMove', 'i32', ['i32', '*'], [searchDepth, boarBufferPtr]);
   const t2 = performance.now()

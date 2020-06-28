@@ -2,7 +2,7 @@
 #include "../logic/Search.h"
 #include "../logic/ranking.h"
 
-bool skipAll = false;
+bool skipAll = true;
 
 TEST(Searching_slowTest, slowTest_should_stop_3_line) {
   // there is an obvious best move
@@ -114,7 +114,7 @@ TEST(Searching_slowTest, search_result_should_inidcate_win) {
 }
 
 TEST(Searching_slowTest, should_see_a_future_win) {
-  //if (skipAll) { ASSERT_TRUE(true); return; }
+  if (skipAll) { ASSERT_TRUE(true); return; }
   Board board(16);
   char brd[] = {
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -140,44 +140,6 @@ TEST(Searching_slowTest, should_see_a_future_win) {
   EXPECT_GE(sr.value, fiveInRow);
 }
 
-//TEST(Searching_slowTest, case1) {
-//  //if (skipAll) { ASSERT_TRUE(true); return; }
-//  Board board(16);
-//  char brd[] = {
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-//    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
-//  board.setCell(120, 1);
-//  board.setCell(135, 2);
-//  board.setCell(119, 1);
-//  board.setCell(136, 2);
-//  board.setCell(103, 1);
-//  board.setCell(137, 2);
-//  board.setCell(138, 1);
-//  board.setCell(151, 2);
-//  board.setCell(121, 1);
-//  board.setCell(118, 2);
-//  ASSERT_TRUE(brd[119] == 1);
-//  board.setBoard(brd);
-//  SearchResult sr;
-//  Search search(11);
-//  search.doSearch(sr, 1, &board);
-//  EXPECT_EQ(sr.move, 136);
-//}
-
-
 // 120 1
 // 0    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 // 16   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -196,23 +158,3 @@ TEST(Searching_slowTest, should_see_a_future_win) {
 //      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 //      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 //      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-
-
-// 153 p2 d10
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 1 0 2 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 1 0 2 0 0 0 0 0 0
-
-//0 0 0 0 0 0 0 0 1 0 2 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0    1 1 1 1  0  0 0 0 0 
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-//0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
