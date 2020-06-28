@@ -117,5 +117,5 @@ void GamestateNode::addToSelectionHistory(int depth) {
 
 void GamestateNode::addToSelectionHistory(GamestateNode* child) {
   std::list<SelectTrace> childHist = child->selectTrace;
-  for (auto it = childHist.begin(); it != childHist.end(); ++it) selectTrace.push_back(*it);
+  for (std::list<SelectTrace>::iterator it = childHist.begin(); it != childHist.end(); ++it) selectTrace.push_back(*it);
 }
